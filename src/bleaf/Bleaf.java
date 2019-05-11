@@ -16,6 +16,17 @@ public class Bleaf {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Variable myObject = new Variable("A");
+        myObject.print();
+        Variable myObject2 = new Variable("A");
+
+
+        
     }
+
+   
+    
+    
     
 }
+
