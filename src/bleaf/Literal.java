@@ -9,11 +9,11 @@ package bleaf;
  *
  * @author patrickbruus
  */
-public class Litteral {
+public class Literal {
     private int id;
     //private boolean name;
     
-    public Litteral(int id){
+    public Literal(int id){
        // this.name = name;
         this.id = id;
     }

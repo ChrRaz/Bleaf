@@ -13,17 +13,17 @@ import java.util.ArrayList;
  */
 public class Sentence {
 
-    private ArrayList<Litteral> Litterals = new ArrayList<Litteral>();
-    private ArrayList<Litteral> LitteralsNeg = new ArrayList<Litteral>();
+    private ArrayList<Literal> Litterals = new ArrayList<Literal>();
+    private ArrayList<Literal> LitteralsNeg = new ArrayList<Literal>();
 
     public Sentence() {
     }
 
-    public void Add(Litteral litt) {
+    public void Add(Literal litt) {
         Litterals.add(litt);
     }
 
-    public void AddNeg(Litteral litt) {
+    public void AddNeg(Literal litt) {
         LitteralsNeg.add(litt);
     }
 
