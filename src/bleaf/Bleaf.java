@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package bleaf;
-
+import java.util.ArrayList;
 /**
  *
  * @author patrickbruus
@@ -15,11 +15,23 @@ public class Bleaf {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        //ArrayList<KnowledgeBase> KBS = new ArrayList<KnowledgeBase>(); // Create an ArrayList object
         // TODO code application logic here
-        Variable myObject = new Variable("A");
-        myObject.print();
-        Variable myObject2 = new Variable("A");
-
+        Sentence sent1 = new Sentence();
+        sent1.Add(new Litteral(1));
+        Litteral L2 = new Litteral(2);
+        sent1.AddNeg(L2);
+        Sentence sent2 = new Sentence();
+        sent2.Add(L2);
+        sent2.Add(new Litteral(3));
+        
+        KnowledgeBase KB = new KnowledgeBase();
+        KB.Add(sent1);
+        KB.Add(sent2);
+        KB.Print();
+        //Litterals.add(new Litteral(1));
+        //Litterals.add(new Litteral(0));
+	}
 
         
     }
@@ -28,5 +40,5 @@ public class Bleaf {
     
     
     
-}
+
 
