@@ -15,23 +15,42 @@ public class Bleaf {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        KnowledgeBase KB = new KnowledgeBase();
-        
-        
-        
-        Clause sent1 = new Clause();
-        sent1.Add(new Literal(1));
-        Literal L2 = new Literal(2);
-        sent1.AddNeg(L2);
-        
-        Clause sent2 = new Clause();
-        sent2.Add(L2);
-        sent2.Add(new Literal(3));
-        
-        KB.Add(sent1);
-        KB.Add(sent2);
-        KB.Print();
 
+        Literal p = new Literal("p");
+        Literal q = new Literal("q");
+        Literal r = new Literal("r");
+
+        Clause first = new Clause();
+        first.add(p); first.add(q); first.addNeg(r);
+        System.out.println(first);
+
+        Clause second = new Clause();
+        second.addNeg(p); second.addNeg(r);
+        System.out.println(second);
+
+        Clause third = new Clause();
+        third.addNeg(q);
+        System.out.println(third);
+
+
+        ClauseSet KB = new ClauseSet(first,second,third);
+
+        Clause phi1 = new Clause();
+        phi1.add(r);
+
+        Clause phi2 = new Clause();
+        phi2.addNeg(p);
+
+        Clause phi3 = new Clause();
+        phi3.addNeg(r);
+
+        System.out.println(KB);
+
+        System.out.println(KB.resolution(new ClauseSet(phi1)));
+
+        System.out.println(KB.resolution(new ClauseSet(phi2)));
+
+        System.out.println(KB.resolution(new ClauseSet(phi3)));
     }
 
         

@@ -10,25 +10,31 @@ package bleaf;
  * @author patrickbruus
  */
 public class Literal {
-    private int id;
-    //private boolean name;
-    
-    public Literal(int id){
-       // this.name = name;
-        this.id = id;
+    private String name;
+
+    public Literal(){
     }
-    
+
+    public Literal(String name){
+        this.name = name;
+    }
+
+    @Override
+    public String toString(){
+        return name;
+    }
+
  //   public boolean getNegation(){
        // return name;
  //   }
-    
+    /*
     public int getID(){
         return id;
     }
-    
+    */
     public void Print(){
-        System.out.print(id);
-   //     System.out.println(name);
+    //    System.out.print(id);
+        System.out.println(name);
     }
    
 }
