@@ -11,12 +11,12 @@ import java.util.ArrayList;
  *
  * @author patrickbruus
  */
-public class Sentence {
+public class Clause {
 
     private ArrayList<Literal> Litterals = new ArrayList<Literal>();
     private ArrayList<Literal> LitteralsNeg = new ArrayList<Literal>();
 
-    public Sentence() {
+    public Clause() {
     }
 
     public void Add(Literal litt) {

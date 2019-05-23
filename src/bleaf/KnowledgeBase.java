@@ -12,13 +12,13 @@ import java.util.ArrayList;
  * @author patrickbruus
  */
 public class KnowledgeBase {
-    private ArrayList<Sentence> SentenceList = new ArrayList<Sentence>();;
+    private ArrayList<Clause> SentenceList = new ArrayList<Clause>();;
     
     public KnowledgeBase(){
     }
     
 
-    public void Add(Sentence sent){
+    public void Add(Clause sent){
         this.SentenceList.add(sent);
     }
     
@@ -36,7 +36,7 @@ public class KnowledgeBase {
         System.out.print("}");
         
     }
-    public void Resolution(Sentence sent){
+    public void Resolution(Clause sent){
       //  Knowledgespace KBnew = new Knowledgespace();
 //        for(s in this.Sentences){
 //            KBnew.Add(s);
