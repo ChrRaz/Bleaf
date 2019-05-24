@@ -83,6 +83,11 @@ public class Clause {
     }
 
     @Override
+    public int hashCode() {
+        return this.posList.hashCode() * 37 + this.negList.hashCode();
+    }
+
+    @Override
     public String toString() {
         // ~~ Adds a negation sign to all negated literals, contatenates positive and negative literals, and returns them all between braces ~~
         // Works in mysterious ways

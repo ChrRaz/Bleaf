@@ -27,15 +27,21 @@ public class ClauseSet {
         for(Clause clause : clauses)
             this.add(clause);
     }
+
+
     public int units() {
         // The number of unit clauses in this clauseSet
         return (int) this.clauseList.stream().filter(cl -> cl.size() == 1).count();
     }
-    
 
-    public ClauseSet add(Clause sent){
-        this.clauseList.add(sent);
-        return this;
+
+
+    public boolean add(Clause sent){
+        return this.clauseList.add(sent);
+    }
+
+    public void addAll(ClauseSet cs){
+        cs.clauseList.forEach(this::add);
     }
 
     public ClauseSet allComplementary(Clause c) {
@@ -49,7 +55,7 @@ public class ClauseSet {
     }
 
     public boolean resolution(ClauseSet phi) {
-        SortedSet<ClausePair> todo = new TreeSet<>();
+        SortedSet<ClausePair> todo = new TreeSet<>(Comparator.reverseOrder());
         ClauseSet setOfSupport = new ClauseSet(phi);
 
         for (Clause cl : setOfSupport.clauseList) {
@@ -59,31 +65,34 @@ public class ClauseSet {
                 todo.add(new ClausePair(cl, cl2));
         }
 
+        //System.out.println(this);
         while (!todo.isEmpty()) {
+            //System.out.println(setOfSupport);
+            //System.out.println(todo);
             ClausePair pair = todo.first();
             todo.remove(pair);
-            System.out.println(pair);
             Clause newClause = pair.resolve();
 
             // Empty clause. Phi is inconsistent with the belief base.
             if (newClause.size() == 0)
                 return false;
 
-            setOfSupport.add(newClause);
-            for (Clause clause : this.allComplementary(newClause).clauseList)
-                todo.add(new ClausePair(clause, newClause));
-            for (Clause clause : setOfSupport.allComplementary(newClause).clauseList)
-                todo.add(new ClausePair(clause, newClause));
+            if (setOfSupport.add(newClause)) {
+                for (Clause clause : this.allComplementary(newClause).clauseList)
+                    todo.add(new ClausePair(clause, newClause));
+                for (Clause clause : setOfSupport.allComplementary(newClause).clauseList)
+                    todo.add(new ClausePair(clause, newClause));
+            }
         }
 
         // No more pair to resolve. Phi is consistent with the belief base.
         return true;
     }
 
-    public Set<Clause> findContradiction(ClauseSet phi) {
-        SortedSet<ClausePair> todo = new TreeSet<>();
+    public ClauseSet findContradiction(ClauseSet phi) {
+        SortedSet<ClausePair> todo = new TreeSet<>(Comparator.reverseOrder());
         ClauseSet setOfSupport = new ClauseSet(phi);
-        Dictionary<Clause, ClausePair> parent = new Hashtable<>();
+        Dictionary<Clause, ClausePair> parents = new Hashtable<>();
 
         for (Clause cl : setOfSupport.clauseList) {
             for (Clause cl2 : this.allComplementary(cl).clauseList)
@@ -92,29 +101,72 @@ public class ClauseSet {
                 todo.add(new ClausePair(cl, cl2));
         }
 
+        //System.out.println(this);
         while (!todo.isEmpty()) {
+            //System.out.println(setOfSupport);
+            //System.out.println(todo);
             ClausePair pair = todo.first();
             todo.remove(pair);
 
-            System.out.println(pair);
+            //System.out.println(pair);
             Clause newClause = pair.resolve();
-            parent.put(newClause, pair);
+            parents.put(newClause, pair);
 
             // Empty clause. Phi is inconsistent with the belief base.
             if (newClause.size() == 0) {
-                // TODO: Return all leaves from newClause as set
-                return null;
+                //System.out.println("Parents: " + parents);
+                ClauseSet badLeaves = returnLeaves(newClause, parents);
+
+                //System.out.println("Internal leaves: " + badLeaves);
+                badLeaves.clauseList.retainAll(this.clauseList);
+                return badLeaves;
             }
 
-            setOfSupport.add(newClause);
-            for (Clause clause : this.allComplementary(newClause).clauseList)
-                todo.add(new ClausePair(clause, newClause));
-            for (Clause clause : setOfSupport.allComplementary(newClause).clauseList)
-                todo.add(new ClausePair(clause, newClause));
+            if (setOfSupport.add(newClause)) {
+                for (Clause clause : this.allComplementary(newClause).clauseList)
+                    todo.add(new ClausePair(clause, newClause));
+                for (Clause clause : setOfSupport.allComplementary(newClause).clauseList)
+                    todo.add(new ClausePair(clause, newClause));
+            }
         }
 
         // No more pair to resolve. Phi is consistent with the belief base.
         return null;
+    }
+
+    public Set<ClauseSet> remainders(ClauseSet phi){
+        //System.out.println("> " + this + ", " + phi + " <");
+        Set<ClauseSet> remSet = new HashSet<>();
+        ClauseSet badLeaves = this.findContradiction(phi);
+        //System.out.println("Leaves: " + badLeaves);
+        if(badLeaves!=null) {
+            for (Clause clause : badLeaves.clauseList) {
+                ClauseSet cs = new ClauseSet(this);
+                cs.clauseList.remove(clause);
+                remSet.addAll(cs.remainders(phi));
+            }
+        }else{
+            remSet.add(this);
+        }
+        return remSet;
+    }
+
+    public ClauseSet returnLeaves(Clause newClause, Dictionary<Clause,ClausePair> parents){
+        ClauseSet todo = new ClauseSet(newClause);
+        ClauseSet cs = new ClauseSet();
+        while(!todo.clauseList.isEmpty()) {
+            Clause next = todo.clauseList.iterator().next();
+            todo.clauseList.remove(next);
+            ClausePair pair = parents.get(next);
+            //System.out.println("Parent Pair: " + next + " -> " + pair);
+            if (pair!=null) {
+                todo.add(pair.getFirst());
+                todo.add(pair.getSecond());
+            } else {
+                cs.add(next);
+            }
+        }
+        return cs;
     }
 
     @Override

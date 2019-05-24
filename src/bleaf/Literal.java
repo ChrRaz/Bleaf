@@ -24,7 +24,17 @@ public class Literal {
         return name;
     }
 
- //   public boolean getNegation(){
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj) || ((obj instanceof Literal) && ((Literal) obj).name.equals(this.name));
+    }
+
+    @Override
+    public int hashCode() {
+        return this.name.hashCode();
+    }
+
+    //   public boolean getNegation(){
        // return name;
  //   }
     /*
