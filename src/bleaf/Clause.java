@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- *
  * @author patrickbruus
  */
 public class Clause {
@@ -40,7 +39,7 @@ public class Clause {
         this.negList.remove(literal);
     }
 
-    public void negate(){
+    public void negate() {
         Set<Literal> holder = this.posList;
         this.posList = this.negList;
         this.negList = holder;
@@ -50,9 +49,9 @@ public class Clause {
         Literal found = null;
         for (Literal lit : this.posList) {
             if (c.negList.contains(lit)) {
-                if (found == null){
+                if (found == null) {
                     found = lit;
-                }else {
+                } else {
                     return null;
                 }
 
@@ -60,9 +59,9 @@ public class Clause {
         }
         for (Literal lit : this.negList) {
             if (c.posList.contains(lit)) {
-                if (found == null){
+                if (found == null) {
                     found = lit;
-                }else {
+                } else {
                     return null;
                 }
             }
@@ -94,31 +93,4 @@ public class Clause {
         return "{" + Stream.concat(this.posList.stream().map(Literal::toString), this.negList.stream().map(lit -> "¬" + lit)).collect(Collectors.joining(", ")) + "}";
     }
 
-    /*
-    public void Print() {
-        System.out.print("{");
-        for (int i = 0; i < posList.size(); i++) {
-            if (i == posList.size() - 1) {
-                posList.get(i).Print();
-                if(negList.size()>0){
-                    System.out.print(",");
-                }
-            } else {
-                posList.get(i).Print();
-                System.out.print(",");
-            }
-
-        }
-        for (int i = 0; i < negList.size(); i++) {
-            System.out.print("-");
-            if (i == negList.size() - 1) {
-                negList.get(i).Print();
-            } else {
-                negList.get(i).Print();
-                System.out.print(",");
-            }
-        }
-        System.out.print("}");
-    }
-*/
 }

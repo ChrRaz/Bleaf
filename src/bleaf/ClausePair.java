@@ -3,7 +3,8 @@ package bleaf;
 public class ClausePair implements Comparable<ClausePair> {
     private Clause first, second;
 
-    public ClausePair() {}
+    public ClausePair() {
+    }
 
     public ClausePair(Clause first, Clause second) {
         this.first = first;

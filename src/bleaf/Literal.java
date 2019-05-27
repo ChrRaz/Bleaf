@@ -6,21 +6,20 @@
 package bleaf;
 
 /**
- *
  * @author patrickbruus
  */
 public class Literal {
     private String name;
 
-    public Literal(){
+    public Literal() {
     }
 
-    public Literal(String name){
+    public Literal(String name) {
         this.name = name;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return name;
     }
 
@@ -34,17 +33,9 @@ public class Literal {
         return this.name.hashCode();
     }
 
-    //   public boolean getNegation(){
-       // return name;
- //   }
-    /*
-    public int getID(){
-        return id;
-    }
-    */
-    public void Print(){
-    //    System.out.print(id);
+    public void Print() {
+        //    System.out.print(id);
         System.out.println(name);
     }
-   
+
 }

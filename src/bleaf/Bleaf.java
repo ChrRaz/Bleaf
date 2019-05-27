@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import java.util.Set;
 
 /**
- *
  * @author patrickbruus
  */
 public class Bleaf {
@@ -23,25 +22,25 @@ public class Bleaf {
         boolean decicionMade = false;
         Scanner in = new Scanner(System.in);
 
-            while (decicionMade == false) {
-                
-                String name = "";
-                System.out.println("Do you want to use a premade example? Type y yes or n for no");
-                name = in.next();
-                String namelowcase = name.toLowerCase();
-                if (name.equals("y")) {
-                    UI.Example();
-                } else if (name.equals("n")) {
-                    UI.userInput();
-                } else {
-                    System.out.println("Error try again");
+        while (decicionMade == false) {
 
-                }
+            String name = "";
+            System.out.println("Do you want to use a premade example? Type y yes or n for no");
+            name = in.next();
+            String namelowcase = name.toLowerCase();
+            if (name.equals("y")) {
+                UI.Example();
+            } else if (name.equals("n")) {
+                UI.userInput();
+            } else {
+                System.out.println("Error try again");
 
             }
+
+        }
         UI.userInput();
-        
-        
+
+
     }
 
 }
