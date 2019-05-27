@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 package bleaf;
+
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 /**
@@ -17,60 +19,29 @@ public class Bleaf {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        boolean decicionMade = false;
+        Scanner in = new Scanner(System.in);
 
-        Literal p = new Literal("p");
-        Literal q = new Literal("q");
-        Literal r = new Literal("r");
-        Literal s = new Literal("s");
+            while (decicionMade == false) {
+                
+                String name = "";
+                System.out.println("Do you want to use a primade example? type y yes or n for no");
+                name = in.next();
+                String namelowcase = name.toLowerCase();
+                if (name.equals("y")) {
+                    UI.Example();
+                } else if (name.equals("n")) {
+                    UI.userInput();
+                } else {
+                    System.out.println("Error try again");
 
-        Clause first = new Clause();
-        first.add(p); first.add(q); first.addNeg(r);
+                }
 
-        Clause second = new Clause();
-        second.addNeg(p); second.addNeg(r);
-
-        Clause third = new Clause();
-        third.addNeg(q);
-
-        Clause fourth = new Clause();
-        fourth.addNeg(p); fourth.add(r); fourth.add(s);
-
-        Clause fifth = new Clause();
-        fifth.add(s); fifth.add(q); fifth.add(r);
-
-
-        ClauseSet KB = new ClauseSet(first,second,third,fourth,fifth);
-
-        Clause phi1 = new Clause();
-        phi1.add(r);
-
-        Clause phi2 = new Clause();
-        phi2.addNeg(p);
-
-        Clause phi3 = new Clause();
-        phi3.addNeg(r);
-
-        System.out.println("KB");
-        System.out.println(KB);
-
-        System.out.println("Resolution");
-        System.out.println(KB.resolution(new ClauseSet(phi1)));
-        //System.out.println(KB.resolution(new ClauseSet(phi2)));
-        //System.out.println(KB.resolution(new ClauseSet(phi3)));
-
-        System.out.println("Remainders");
-        System.out.println(KB.remainders(new ClauseSet(phi1)));
-        System.out.println(KB.remainders(new ClauseSet(phi1)).stream().map(ClauseSet::toString).collect(Collectors.joining("\n")));
-        //System.out.println(KB.remainders(new ClauseSet(phi2)));
-        //System.out.println(KB.remainders(new ClauseSet(phi3)));
-    }
-
+            }
+        UI.userInput();
+        
         
     }
 
-   
-    
-    
-    
-
+}
 
