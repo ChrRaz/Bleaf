@@ -54,6 +54,18 @@ public class ClauseSet {
         return comp;
     }
 
+    public long size(){
+        int l = 0;
+        for(Clause c : clauseList){
+            l += c.size();
+        }
+        return l;
+    }
+
+    public double relSize(){
+       return (double)this.size()/this.clauseList.size();
+    }
+
     public boolean resolution(ClauseSet phi) {
         SortedSet<ClausePair> todo = new TreeSet<>(Comparator.reverseOrder());
         ClauseSet setOfSupport = new ClauseSet(phi);
@@ -174,28 +186,9 @@ public class ClauseSet {
         return "{" + this.clauseList.stream().map(Clause::toString).collect(Collectors.joining(", ")) + "}";
     }
 
-    /*
-        public void Print(){
-            System.out.print("{");
-            for (int i = 0; i < clauseList.size(); i++) {
-               if(i==clauseList.size()-1){
-                   clauseList.get(i).Print();
-               }
-               else{
-                   clauseList.get(i).Print();
-                   System.out.print(",");
-               }
-        }
-            System.out.print("}");
+    public static Set<ClauseSet> gamma(Set<ClauseSet> remainders){
+        long max = remainders.stream().mapToLong(ClauseSet::size).max().orElse(-1);
 
-        }*/
-    public void Resolution(Clause sent){
-      //  Knowledgespace KBnew = new Knowledgespace();
-//        for(s in this.Sentences){
-//            KBnew.Add(s);
-//        }
-//        KBnew.Add(sent.Neg);
-//        KBnew.Checkthis; 
+        return remainders.stream().filter(c -> c.size()==max).collect(Collectors.toSet());
     }
-
 }

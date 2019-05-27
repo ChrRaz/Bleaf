@@ -6,6 +6,7 @@
 package bleaf;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+import java.util.Set;
 
 /**
  *
@@ -41,8 +42,10 @@ public class Bleaf {
 
         ClauseSet KB = new ClauseSet(first,second,third,fourth,fifth);
 
+        Clause negPhi1 = new Clause();
+        negPhi1.add(r);
         Clause phi1 = new Clause();
-        phi1.add(r);
+        phi1.addNeg(r);
 
         Clause phi2 = new Clause();
         phi2.addNeg(p);
@@ -54,13 +57,24 @@ public class Bleaf {
         System.out.println(KB);
 
         System.out.println("Resolution");
-        System.out.println(KB.resolution(new ClauseSet(phi1)));
+        System.out.println(KB.resolution(new ClauseSet(negPhi1)));
         //System.out.println(KB.resolution(new ClauseSet(phi2)));
         //System.out.println(KB.resolution(new ClauseSet(phi3)));
 
         System.out.println("Remainders");
-        System.out.println(KB.remainders(new ClauseSet(phi1)));
-        System.out.println(KB.remainders(new ClauseSet(phi1)).stream().map(ClauseSet::toString).collect(Collectors.joining("\n")));
+        //System.out.println(KB.remainders(new ClauseSet(negPhi1)));
+        Set<ClauseSet> remset = KB.remainders(new ClauseSet(negPhi1));
+        System.out.println(remset);
+        for(ClauseSet rem : remset){
+            System.out.println(rem.resolution(new ClauseSet(phi1)));
+            System.out.println(rem.size());
+            System.out.println(rem.relSize());
+        }
+        System.out.println(ClauseSet.gamma(remset));
+
+
+
+        //System.out.println(KB.remainders(new ClauseSet(negPhi1)).stream().map(ClauseSet::toString).collect(Collectors.joining("\n")));
         //System.out.println(KB.remainders(new ClauseSet(phi2)));
         //System.out.println(KB.remainders(new ClauseSet(phi3)));
     }
