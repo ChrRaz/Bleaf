@@ -25,7 +25,7 @@ public class Bleaf {
             while (decicionMade == false) {
                 
                 String name = "";
-                System.out.println("Do you want to use a primade example? type y yes or n for no");
+                System.out.println("Do you want to use a premade example? type y yes or n for no");
                 name = in.next();
                 String namelowcase = name.toLowerCase();
                 if (name.equals("y")) {
