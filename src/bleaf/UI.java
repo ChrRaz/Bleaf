@@ -6,6 +6,7 @@
 package bleaf;
 
 import java.util.Scanner;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -17,17 +18,11 @@ public class UI {
     public static void userInput() {
         ClauseSet KB = ClauseSetting();
         System.out.println("Now enter the clauses for not Phi you want");
+        ClauseSet negPhi = ClauseSetting();
+        System.out.println("Now enter the clauses for Phi you want");
         ClauseSet Phi = ClauseSetting();
-
-        System.out.println("KB");
-        System.out.println(KB);        
         
-        System.out.println("Resolution");
-        System.out.println(KB.resolution(new ClauseSet(Phi)));
-
-        System.out.println("Remainders");
-        System.out.println(KB.remainders(new ClauseSet(Phi)));
-        System.out.println(KB.remainders(new ClauseSet(Phi)).stream().map(ClauseSet::toString).collect(Collectors.joining("\n")));
+        doTheThings(KB,negPhi,Phi);
 
     }
 
@@ -41,7 +36,10 @@ public class UI {
             System.out.println("Enter the literals you want in your clause");
             System.out.println("After each literal set a , to indicate new literal");
             System.out.println("To negate a literal use - before it");
-            //System.out.println("You know have "+clauseSet);
+            if (0 == (int)clauseSet.size()){
+            } else {
+                System.out.println("You know have "+clauseSet);
+            }
 
             String litterals = in.next();
             String[] litteralsArray = litterals.split(",");
@@ -111,35 +109,30 @@ public class UI {
         Clause phi1 = new Clause();
         phi1.addNeg(r);
 
-        Clause phi2 = new Clause();
-        phi2.addNeg(p);
-
-        Clause phi3 = new Clause();
-        phi3.addNeg(r);
-
-        System.out.println("KB");
-        System.out.println(KB);
-
-        System.out.println("Resolution");
-        System.out.println(KB.resolution(new ClauseSet(negPhi1)));
-        //System.out.println(KB.resolution(new ClauseSet(phi2)));
-        //System.out.println(KB.resolution(new ClauseSet(phi3)));
-
-        System.out.println("Remainders");
-        //System.out.println(KB.remainders(new ClauseSet(negPhi1)));
-        Set<ClauseSet> remset = KB.remainders(new ClauseSet(negPhi1));
-        System.out.println(remset);
-        for(ClauseSet rem : remset){
-            System.out.println(rem.resolution(new ClauseSet(phi1)));
-            System.out.println(rem.size());
-            System.out.println(rem.relSize());
-        }
-        System.out.println(ClauseSet.gamma(remset));
-
-
+        doTheThings(KB,new ClauseSet(negPhi1),new ClauseSet(phi1));
+        
 
         //System.out.println(KB.remainders(new ClauseSet(negPhi1)).stream().map(ClauseSet::toString).collect(Collectors.joining("\n")));
         //System.out.println(KB.remainders(new ClauseSet(phi2)));
         //System.out.println(KB.remainders(new ClauseSet(phi3)));
     }
+    
+    public static void doTheThings(ClauseSet KB, ClauseSet negPhi, ClauseSet phi){
+    System.out.println("KB");
+        System.out.println(KB);
+
+        System.out.println("Resolution");
+        System.out.println(KB.resolution(new ClauseSet(negPhi)));
+
+        System.out.println("Remainders");
+        Set<ClauseSet> remset = KB.remainders(new ClauseSet(negPhi));
+        System.out.println(remset);
+        for(ClauseSet rem : remset){
+            System.out.println(rem.resolution(new ClauseSet(phi)));
+            System.out.println(rem.size());
+            System.out.println(rem.relSize());
+        }
+        System.out.println(ClauseSet.gamma(remset));
+}
+
 }
