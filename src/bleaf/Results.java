@@ -3,29 +3,29 @@ package bleaf;
 import java.util.Set;
 
 public class Results {
-    public static void showResults(ClauseSet KB, ClauseSet negPhi, ClauseSet phi) {
+
+    public static void showResolution(ClauseSet KB, ClauseSet phi) {
         System.out.println("KB");
         System.out.println(KB);
 
         System.out.println("Resolution");
-        System.out.println(KB.resolution(new ClauseSet(negPhi)));
+        System.out.println(KB.resolution(new ClauseSet(phi)));
 
-        System.out.println("Remainders");
-        Set<ClauseSet> remset = KB.remainders(new ClauseSet(negPhi));
-        System.out.println(remset);
+    }
+    
+    public static void showRemainders(ClauseSet KB, ClauseSet phi) {
+        System.out.println("KB");
+        System.out.println(KB);
+        
+        Set<ClauseSet> remset = KB.remainders(new ClauseSet(phi));
+        Set<ClauseSet> gammaremset = ClauseSet.gamma(remset);
         ClauseSet intersection = new ClauseSet(KB);
-        for (ClauseSet rem : remset) {
-            System.out.println(rem.resolution(new ClauseSet(phi)));
-            System.out.println(rem.size());
-            System.out.println(rem.relSize());
+        for (ClauseSet rem : gammaremset) {
             intersection.clauseList.retainAll(rem.clauseList);
         }
 
-        System.out.println(ClauseSet.gamma(remset));
         System.out.println("Intersections:");
         System.out.println(intersection);
-
     }
-
 
 }

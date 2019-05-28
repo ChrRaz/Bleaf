@@ -6,26 +6,94 @@
 package bleaf;
 
 import java.util.Scanner;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author patrickbruus
  */
 public class UI {
 
+    public static String decicion(String[] array) {
+        boolean decicionMade = false;
+        Scanner in = new Scanner(System.in);
+
+        while (decicionMade == false) {
+            String name = "";
+            System.out.println(array[0]);
+            name = in.next();
+            String namelowcase = name.toLowerCase();
+            for (int i = 1; i < array.length; i++) {
+                if (array[i].equals(namelowcase)) {
+                    return namelowcase;
+
+                }
+            }
+            System.out.println("Error try again");
+        }
+        return "";
+    }
+
     public static void userInput() {
+
+        String[] arrayMode = {"Do you want to use resolution or remainders? Type rs for resolution or rm for remainders", "rs", "rm"};
+        String decicionMode = UI.decicion(arrayMode);
         ClauseSet KB = ClauseSetting();
-        System.out.println("Now enter the clauses for not Phi you want");
-        ClauseSet negPhi = ClauseSetting();
-        System.out.println("Now enter the clauses for Phi you want");
-        ClauseSet Phi = ClauseSetting();
 
-        Results.showResults(KB, negPhi, Phi);
-
+        if (decicionMode.equals(arrayMode[1])) {
+            ClauseSet phi = ClauseSettingPhi(arrayMode[1]);
+            Results.showResolution(KB, phi);
+        } else {
+            ClauseSet phi = ClauseSettingPhi(arrayMode[2]);
+            Results.showRemainders(KB, phi);
+        }
     }
 
     private static ClauseSet ClauseSetting() {
+        ClauseSet clauseSet = new ClauseSet();
+        String[] arraySrc = {"What Knowlegde Base do you want to use? " + System.lineSeparator() + "Example 1 {{¬q}, {¬p, ¬r}, {p, q, ¬r}, {r, s, ¬p}, {q, r, s}}" + System.lineSeparator() + "Example 2 {{p}, {p, ¬q}, {p, ¬r}, {¬s}, {s, ¬t}, {r, s, ¬p}, {r, ¬t}}" + System.lineSeparator() + " Type 1 for example 1 or 2 for example 2 or 3 for your own", "1", "2", "3"};
+        String decicionSrc = UI.decicion(arraySrc);
+        if (decicionSrc.equals(arraySrc[1])) {
+            clauseSet = Example1();
+        } else if (decicionSrc.equals(arraySrc[2])) {
+            clauseSet = Example2();
+        } else {
+            clauseSet = manualClauseSetting();
+        }
+        return clauseSet;
+
+    }
+
+    private static ClauseSet ClauseSettingPhi(String choice) {
+        ClauseSet clauseSet = new ClauseSet();
+        if (choice.equals("rs")) {
+            System.out.println("Now enter the clauses for not Phi you want");
+        } else {
+            System.out.println("Now enter the clauses for Phi you want");
+        }
+
+        String[] arraySrc = {"What Phi do you want to use? " + System.lineSeparator() + "Phi 1 "+ExamplePhi1()+" for remainders and not Phi 1 "+ExampleNotPhi1()+" for resolution" + System.lineSeparator() + "Phi 2 "+ExamplePhi2()+" for remainders and not Phi 2 "+ExampleNotPhi2()+" for resolution" + System.lineSeparator() + " Type 1 for Phi 1 or 2 for Phi 2 or 3 for your own", "1", "2", "3"};
+        String decicionSrc = UI.decicion(arraySrc);
+        if (decicionSrc.equals(arraySrc[1])) {
+            if (choice.equals("rs")) {
+                clauseSet = ExampleNotPhi1();
+            } else {
+                clauseSet = ExamplePhi1();
+
+            }
+        } else if (decicionSrc.equals(arraySrc[2])) {
+            if (choice.equals("rs")) {
+                clauseSet = ExampleNotPhi2();
+            } else {
+                clauseSet = ExamplePhi2();
+
+            }
+        } else {
+            clauseSet = manualClauseSetting();
+        }
+        return clauseSet;
+
+    }
+
+    private static ClauseSet manualClauseSetting() {
         boolean isClausesSet = false;
         ClauseSet clauseSet = new ClauseSet();
         while (isClausesSet == false) {
@@ -78,8 +146,7 @@ public class UI {
         return clauseSet;
     }
 
-
-    public static void Example() {
+    public static ClauseSet Example1() {
         Literal p = new Literal("p");
         Literal q = new Literal("q");
         Literal r = new Literal("r");
@@ -107,17 +174,80 @@ public class UI {
         fifth.add(q);
         fifth.add(r);
 
-
         ClauseSet KB = new ClauseSet(first, second, third, fourth, fifth);
 
-        Clause negPhi = new Clause();
-        negPhi.add(r);
-        Clause phi = new Clause();
-        phi.addNeg(r);
-
-        Results.showResults(KB, new ClauseSet(negPhi), new ClauseSet(phi));
+        return KB;
 
     }
 
+    public static ClauseSet Example2() {
+        Literal p = new Literal("p");
+        Literal q = new Literal("q");
+        Literal r = new Literal("r");
+        Literal s = new Literal("s");
+        Literal t = new Literal("t");
 
+        Clause first = new Clause();
+        first.add(p);
+
+        Clause second = new Clause();
+        second.addNeg(s);
+
+        Clause third = new Clause();
+        third.addNeg(q);
+        third.add(p);
+
+        Clause fourth = new Clause();
+        fourth.add(s);
+        fourth.addNeg(t);
+
+        Clause fifth = new Clause();
+        fifth.addNeg(p);
+        fifth.add(s);
+        fifth.add(r);
+
+        Clause sixth = new Clause();
+        sixth.addNeg(t);
+        sixth.add(r);
+
+        Clause seventh = new Clause();
+        seventh.addNeg(r);
+        seventh.add(p);
+        
+        ClauseSet KB = new ClauseSet(first, second, third, fourth, fifth, sixth, seventh);
+        return KB;
+
+    }
+
+    public static ClauseSet ExamplePhi1() {
+        Literal r = new Literal("r");
+        Clause negPhi = new Clause();
+        negPhi.add(r);
+        ClauseSet clausePhi = new ClauseSet(negPhi);
+        return clausePhi;
+    }
+
+    public static ClauseSet ExampleNotPhi1() {
+        Literal r = new Literal("r");
+        Clause phi = new Clause();
+        phi.addNeg(r);
+        ClauseSet clausePhi = new ClauseSet(phi);
+        return clausePhi;
+    }
+
+    public static ClauseSet ExamplePhi2() {
+        Literal r = new Literal("p");
+        Clause negPhi = new Clause();
+        negPhi.add(r);
+        ClauseSet clausePhi = new ClauseSet(negPhi);
+        return clausePhi;
+    }
+
+    public static ClauseSet ExampleNotPhi2() {
+        Literal r = new Literal("p");
+        Clause phi = new Clause();
+        phi.addNeg(r);
+        ClauseSet clausePhi = new ClauseSet(phi);
+        return clausePhi;
+    }
 }
