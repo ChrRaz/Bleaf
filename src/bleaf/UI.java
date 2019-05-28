@@ -12,11 +12,11 @@ import java.util.Scanner;
  */
 public class UI {
 
-    public static String decicion(String[] array) {
-        boolean decicionMade = false;
+    public static String decision(String[] array) {
+        boolean decisionMade = false;
         Scanner in = new Scanner(System.in);
 
-        while (decicionMade == false) {
+        while (decisionMade == false) {
             String name = "";
             System.out.println(array[0]);
             name = in.next();
@@ -35,14 +35,28 @@ public class UI {
     public static void userInput() {
 
         String[] arrayMode = {"Do you want to use resolution or remainders? Type rs for resolution or rm for remainders", "rs", "rm"};
-        String decicionMode = UI.decicion(arrayMode);
+        String decisionMode = UI.decision(arrayMode);
         ClauseSet KB = ClauseSetting();
 
-        if (decicionMode.equals(arrayMode[1])) {
-            ClauseSet phi = ClauseSettingPhi(arrayMode[1]);
+        if (decisionMode.equals(arrayMode[1])) {
+            ClauseSet phi;
+            if (KB == Example1() || KB == Example2()) {
+                phi = ClauseSettingPhi(arrayMode[1]);
+
+            } else {
+                System.out.println("Now enter the clauses for not Phi you want");
+                phi = manualClauseSetting();
+            }
             Results.showResolution(KB, phi);
         } else {
-            ClauseSet phi = ClauseSettingPhi(arrayMode[2]);
+            ClauseSet phi;
+            if (KB == Example1() || KB == Example2()) {
+                phi = ClauseSettingPhi(arrayMode[2]);
+
+            } else {
+                System.out.println("Now enter the clauses for Phi you want");
+                phi = manualClauseSetting();
+            }
             Results.showRemainders(KB, phi);
         }
     }
@@ -50,10 +64,10 @@ public class UI {
     private static ClauseSet ClauseSetting() {
         ClauseSet clauseSet = new ClauseSet();
         String[] arraySrc = {"What Knowlegde Base do you want to use? " + System.lineSeparator() + "Example 1 {{¬q}, {¬p, ¬r}, {p, q, ¬r}, {r, s, ¬p}, {q, r, s}}" + System.lineSeparator() + "Example 2 {{p}, {p, ¬q}, {p, ¬r}, {¬s}, {s, ¬t}, {r, s, ¬p}, {r, ¬t}}" + System.lineSeparator() + " Type 1 for example 1 or 2 for example 2 or 3 for your own", "1", "2", "3"};
-        String decicionSrc = UI.decicion(arraySrc);
-        if (decicionSrc.equals(arraySrc[1])) {
+        String decisionSrc = UI.decision(arraySrc);
+        if (decisionSrc.equals(arraySrc[1])) {
             clauseSet = Example1();
-        } else if (decicionSrc.equals(arraySrc[2])) {
+        } else if (decisionSrc.equals(arraySrc[2])) {
             clauseSet = Example2();
         } else {
             clauseSet = manualClauseSetting();
@@ -70,16 +84,16 @@ public class UI {
             System.out.println("Now enter the clauses for Phi you want");
         }
 
-        String[] arraySrc = {"What Phi do you want to use? " + System.lineSeparator() + "Phi 1 "+ExamplePhi1()+" for remainders and not Phi 1 "+ExampleNotPhi1()+" for resolution" + System.lineSeparator() + "Phi 2 "+ExamplePhi2()+" for remainders and not Phi 2 "+ExampleNotPhi2()+" for resolution" + System.lineSeparator() + " Type 1 for Phi 1 or 2 for Phi 2 or 3 for your own", "1", "2", "3"};
-        String decicionSrc = UI.decicion(arraySrc);
-        if (decicionSrc.equals(arraySrc[1])) {
+        String[] arraySrc = {"What Phi do you want to use? " + System.lineSeparator() + "Phi 1 " + ExamplePhi1() + " for remainders and not Phi 1 " + ExampleNotPhi1() + " for resolution" + System.lineSeparator() + "Phi 2 " + ExamplePhi2() + " for remainders and not Phi 2 " + ExampleNotPhi2() + " for resolution" + System.lineSeparator() + " Type 1 for Phi 1 or 2 for Phi 2 or 3 for your own", "1", "2", "3"};
+        String decisionSrc = UI.decision(arraySrc);
+        if (decisionSrc.equals(arraySrc[1])) {
             if (choice.equals("rs")) {
                 clauseSet = ExampleNotPhi1();
             } else {
                 clauseSet = ExamplePhi1();
 
             }
-        } else if (decicionSrc.equals(arraySrc[2])) {
+        } else if (decisionSrc.equals(arraySrc[2])) {
             if (choice.equals("rs")) {
                 clauseSet = ExampleNotPhi2();
             } else {
@@ -124,16 +138,16 @@ public class UI {
 
             }
             clauseSet.add(clause);
-            boolean decicionMade = false;
-            while (decicionMade == false) {
+            boolean decisionMade = false;
+            while (decisionMade == false) {
                 String name = "";
                 System.out.println("Do you want to add another clause type y/Y for yes or n/N for no");
                 name = in.next();
                 String namelowcase = name.toLowerCase();
                 if (name.equals("y")) {
-                    decicionMade = true;
+                    decisionMade = true;
                 } else if (name.equals("n")) {
-                    decicionMade = true;
+                    decisionMade = true;
                     isClausesSet = true;
                 } else {
                     System.out.println("Error try again");
@@ -213,7 +227,7 @@ public class UI {
         Clause seventh = new Clause();
         seventh.addNeg(r);
         seventh.add(p);
-        
+
         ClauseSet KB = new ClauseSet(first, second, third, fourth, fifth, sixth, seventh);
         return KB;
 
