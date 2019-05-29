@@ -11,10 +11,10 @@ import java.util.Scanner;
  * @author patrickbruus
  */
 public class UI {
+    private static Scanner in = new Scanner(System.in);
 
     public static String decision(String[] array) {
         boolean decisionMade = false;
-        Scanner in = new Scanner(System.in);
 
         while (decisionMade == false) {
             String name = "";
@@ -116,7 +116,7 @@ public class UI {
         while (isClausesSet == false) {
             Clause clause = new Clause();
 
-            Scanner in = new Scanner(System.in);
+            // Scanner in = new Scanner(System.in);
             System.out.println("Enter the literals you want in your clause");
             System.out.println("After each literal set a , to indicate new literal");
             System.out.println("To negate a literal use - before it");

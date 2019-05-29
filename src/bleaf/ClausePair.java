@@ -1,5 +1,7 @@
 package bleaf;
 
+import java.util.Objects;
+
 public class ClausePair implements Comparable<ClausePair> {
     private Clause first, second;
 
@@ -38,6 +40,10 @@ public class ClausePair implements Comparable<ClausePair> {
 
     @Override
     public int compareTo(ClausePair o) {
+        if (this.equals(o))
+            return 0;
+        if (this.units() == o.units())
+            return Objects.hash(this) > Objects.hash(o) ? 1 : -1;
         return this.units() - o.units();
     }
 
@@ -46,8 +52,13 @@ public class ClausePair implements Comparable<ClausePair> {
         if (this == obj) return true;
         if (!(obj instanceof ClausePair)) return false;
         ClausePair other = (ClausePair) obj;
-        return this.first.equals(other.first) && this.second.equals(other.second) ||
-                this.first.equals(other.second) && this.second.equals(other.first);
+        return (this.first.equals(other.first) && this.second.equals(other.second)) ||
+                (this.first.equals(other.second) && this.second.equals(other.first));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.first, this.second);
     }
 
     @Override

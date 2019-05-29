@@ -19,8 +19,6 @@ public class Results {
 
         ClauseSet intersection = ClauseSet.contraction(KB,phi);
 
-        System.out.println("The remainders are " + intersection);
-
         System.out.println("The contraction of the belief base is " + intersection);
         System.out.println();
     }
