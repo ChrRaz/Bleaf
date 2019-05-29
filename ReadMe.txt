@@ -1,4 +1,11 @@
-Read me
+# INSTALLATION
+
+Simply use the jar file or compile using
+`javac -d build -cp src/ src/bleaf/Bleaf.java` and then run using
+`cd build` and `java bleaf.Bleaf`
+
+# USAGE
+
 The program has to be run in a java environment. 
 
 1. When you run the program it will ask you if you want to do resolution or remainders. 
