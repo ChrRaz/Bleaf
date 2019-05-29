@@ -78,7 +78,7 @@ public class ClauseSet {
                 todo.add(new ClausePair(cl, cl2));
         }
 
-        //System.out.println(this);
+        // System.out.println("<" + this + ">");
         while (!todo.isEmpty()) {
             //System.out.println(setOfSupport);
             //System.out.println(todo);
@@ -114,10 +114,9 @@ public class ClauseSet {
                 todo.add(new ClausePair(cl, cl2));
         }
 
-        //System.out.println(this);
         while (!todo.isEmpty()) {
-            //System.out.println(setOfSupport);
-            //System.out.println(todo);
+            // System.out.println("SS = " + setOfSupport);
+            // System.out.println("todo = " + todo);
             ClausePair pair = todo.first();
             todo.remove(pair);
 
@@ -151,6 +150,7 @@ public class ClauseSet {
         //System.out.println("> " + this + ", " + phi + " <");
         Set<ClauseSet> remSet = new HashSet<>();
         ClauseSet badLeaves = this.findContradiction(phi);
+
         //System.out.println("Leaves: " + badLeaves);
         if (badLeaves != null) {
             for (Clause clause : badLeaves.clauseList) {
@@ -168,6 +168,10 @@ public class ClauseSet {
     
         Set<ClauseSet> remset = KB.remainders(new ClauseSet(phi));
         Set<ClauseSet> gammaremset = ClauseSet.gamma(remset);
+
+        // System.out.println("     remset -> " + remset);
+        // System.out.println("gammaremset -> " + gammaremset);
+
         // Compute intersection
         ClauseSet intersection = new ClauseSet(KB);
         for (ClauseSet rem : gammaremset) {
