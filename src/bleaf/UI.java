@@ -34,8 +34,11 @@ public class UI {
 
     public static void userInput() {
 
-        String[] arrayMode = {"Do you want to use resolution or remainders? Type rs for resolution or rm for remainders", "rs", "rm"};
+        String[] arrayMode = {"Do you want to use resolution or remainders? Type "+resolutionOption()+" for resolution or "+remaindersOption()+" for remainders"+ System.lineSeparator() +"If you want to quit the program press q", resolutionOption(), remaindersOption(),"q"};
         String decisionMode = UI.decision(arrayMode);
+        if (decisionMode.equals(arrayMode[3])) {
+            System.exit(0);
+        }
         ClauseSet KB = ClauseSetting();
 
         if (decisionMode.equals(arrayMode[1])) {
@@ -78,7 +81,7 @@ public class UI {
 
     private static ClauseSet ClauseSettingPhi(String choice) {
         ClauseSet clauseSet = new ClauseSet();
-        if (choice.equals("rs")) {
+        if (choice.equals(resolutionOption())) {
             System.out.println("Now enter the clauses for not Phi you want");
         } else {
             System.out.println("Now enter the clauses for Phi you want");
@@ -87,14 +90,14 @@ public class UI {
         String[] arraySrc = {"What Phi do you want to use? " + System.lineSeparator() + "Phi 1 " + ExamplePhi1() + " for remainders and not Phi 1 " + ExampleNotPhi1() + " for resolution" + System.lineSeparator() + "Phi 2 " + ExamplePhi2() + " for remainders and not Phi 2 " + ExampleNotPhi2() + " for resolution" + System.lineSeparator() + " Type 1 for Phi 1 or 2 for Phi 2 or 3 for your own", "1", "2", "3"};
         String decisionSrc = UI.decision(arraySrc);
         if (decisionSrc.equals(arraySrc[1])) {
-            if (choice.equals("rs")) {
+            if (choice.equals(resolutionOption())) {
                 clauseSet = ExampleNotPhi1();
             } else {
                 clauseSet = ExamplePhi1();
 
             }
         } else if (decisionSrc.equals(arraySrc[2])) {
-            if (choice.equals("rs")) {
+            if (choice.equals(resolutionOption())) {
                 clauseSet = ExampleNotPhi2();
             } else {
                 clauseSet = ExamplePhi2();
@@ -263,5 +266,15 @@ public class UI {
         phi.addNeg(r);
         ClauseSet clausePhi = new ClauseSet(phi);
         return clausePhi;
+    }
+    
+    public static String resolutionOption(){
+        String operation = "1";
+        return  operation;
+    }
+    
+        public static String remaindersOption(){
+        String operation = "2";
+        return  operation;
     }
 }
