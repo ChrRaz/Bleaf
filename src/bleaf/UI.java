@@ -63,7 +63,7 @@ public class UI {
 
     private static ClauseSet ClauseSetting() {
         ClauseSet clauseSet = new ClauseSet();
-        String[] arraySrc = {"What Knowlegde Base do you want to use? " + System.lineSeparator() + "Example 1 {{¬q}, {¬p, ¬r}, {p, q, ¬r}, {r, s, ¬p}, {q, r, s}}" + System.lineSeparator() + "Example 2 {{p}, {p, ¬q}, {p, ¬r}, {¬s}, {s, ¬t}, {r, s, ¬p}, {r, ¬t}}" + System.lineSeparator() + " Type 1 for example 1 or 2 for example 2 or 3 for your own", "1", "2", "3"};
+        String[] arraySrc = {"What Knowlegde Base do you want to use? " + System.lineSeparator() + "Example 1 "+Example1() + System.lineSeparator() + "Example 2 "+ Example2() + System.lineSeparator() + " Type 1 for example 1 or 2 for example 2 or 3 for your own", "1", "2", "3"};
         String decisionSrc = UI.decision(arraySrc);
         if (decisionSrc.equals(arraySrc[1])) {
             clauseSet = Example1();
