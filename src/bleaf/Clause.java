@@ -6,6 +6,7 @@
 package bleaf;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -74,16 +75,17 @@ public class Clause {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!(obj instanceof Clause)) return false;
-        Clause other = (Clause) obj;
-        return this.posList.equals(other.posList) && this.negList.equals(other.negList);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Clause clause = (Clause) o;
+        return posList.equals(clause.posList) &&
+                negList.equals(clause.negList);
     }
 
     @Override
     public int hashCode() {
-        return this.posList.hashCode() * 37 + this.negList.hashCode();
+        return Objects.hash(posList, negList);
     }
 
     @Override

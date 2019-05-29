@@ -43,7 +43,7 @@ public class UI {
 
         if (decisionMode.equals(arrayMode[1])) {
             ClauseSet phi;
-            if (KB == Example1() || KB == Example2()) {
+            if (KB.equals(Example1()) || KB.equals(Example2())) {
                 phi = ClauseSettingPhi(arrayMode[1]);
 
             } else {
@@ -53,7 +53,7 @@ public class UI {
             Results.showResolution(KB, phi);
         } else {
             ClauseSet phi;
-            if (KB == Example1() || KB == Example2()) {
+            if (KB.equals(Example1()) || KB.equals(Example2())) {
                 phi = ClauseSettingPhi(arrayMode[2]);
 
             } else {

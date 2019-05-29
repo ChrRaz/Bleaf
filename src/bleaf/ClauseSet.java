@@ -241,4 +241,17 @@ public class ClauseSet {
         }
         return gammaSet;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ClauseSet clauseSet = (ClauseSet) o;
+        return clauseList.equals(clauseSet.clauseList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(clauseList);
+    }
 }
