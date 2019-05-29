@@ -17,13 +17,7 @@ public class Results {
         System.out.println();
         System.out.println("The original belief base was " + KB);
 
-        Set<ClauseSet> remset = KB.remainders(new ClauseSet(phi));
-        Set<ClauseSet> gammaremset = ClauseSet.gamma(remset);
-        // Compute intersection
-        ClauseSet intersection = new ClauseSet(KB);
-        for (ClauseSet rem : gammaremset) {
-            intersection.clauseList.retainAll(rem.clauseList);
-        }
+        ClauseSet intersection = ClauseSet.contraction(KB,phi);
 
         System.out.println("The remainders are " + intersection);
 

@@ -163,6 +163,18 @@ public class ClauseSet {
         }
         return remSet;
     }
+    
+    public static ClauseSet contraction(ClauseSet KB, ClauseSet phi){
+    
+        Set<ClauseSet> remset = KB.remainders(new ClauseSet(phi));
+        Set<ClauseSet> gammaremset = ClauseSet.gamma(remset);
+        // Compute intersection
+        ClauseSet intersection = new ClauseSet(KB);
+        for (ClauseSet rem : gammaremset) {
+            intersection.clauseList.retainAll(rem.clauseList);
+        }
+        return intersection;
+    }
 
     public ClauseSet returnLeaves(Clause newClause, Dictionary<Clause, ClausePair> parents) {
         ClauseSet todo = new ClauseSet(newClause);
